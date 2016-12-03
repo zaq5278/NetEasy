@@ -4,6 +4,7 @@
 var gulp = require('gulp');
 var htmlmin = require('gulp-htmlmin'), //html压缩
     imagemin = require('gulp-imagemin'),//图片压缩
+    clean = require('gulp-clean'),
     pngcrush = require('imagemin-pngcrush'),
     // sass = require('gulp-ruby-sass'),//scss编译
     // sass = require('gulp-sass'),//scss编译
@@ -31,6 +32,11 @@ gulp.task('js', function() {
         .pipe(uglify())
         .pipe(gulp.dest('dist/js'))
         // .pipe(notify({ message: 'js task ok' }));
+});
+//复制lib
+gulp.task('lib',function () {
+    return gulp.src('src/lib/**')
+        .pipe(gulp.dest('dist/lib'))
 });
 //编译并压缩scss
 // gulp.task('scss', function() {
@@ -73,15 +79,14 @@ gulp.task('html', function() {
 
 });
 //清除文件
-// gulp.task('clean', function(cb) {
-//     del(['dest/assets/css', 'dest/assets/js', 'dest/assets/img'], cb)
-// });
+gulp.task('clean', function(cb) {
+    return gulp.src('dist',{read: false})
+        .pipe(clean({force: true}))
+});
 gulp.task('default',function () {
-    gulp.run('js','css','img','html');
+    gulp.start('js','css','img','html','lib');
     // 监听html文件变化
-    gulp.watch('src/*.html', function(){
-        gulp.run('html');
-    });
+    gulp.watch('src/*.html', ['html']);
     // 监听scss
     // gulp.watch('src/scss/*.scss', function () {
     //     gulp.run('scss');

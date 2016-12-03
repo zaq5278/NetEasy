@@ -1,0 +1,39 @@
+html{
+    font-size: 62.5%;
+}
+.topCarousel{
+    margin-bottom: -2rem;
+    position: relative;
+    /*width: calc(100% + 20px);*/
+    /*left: -10px;*/
+    /*top: -10px;*/
+}
+.topCarousel .slider-pager{
+    text-align: right !important;
+    right: 1.5rem;
+    height: .3rem;
+}
+.topCarousel .slider-pager-page{
+    width: .1rem !important;
+}
+.topCarousel .ion-record{
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+    display: block;
+    background-color: white;
+}
+.slideBottomDiv{
+    position: relative;
+    bottom: 2rem;
+    width: 100%;
+    font-size: 1.2rem;
+    /*line-height: 2rem;*/
+    /*height: 2rem;*/
+    padding-left: 1.5rem;
+    background-color: rgba(0,0,0,.3);
+    color: white;
+}
+.topListScroll{
+    overflow-x: hidden !important;
+}

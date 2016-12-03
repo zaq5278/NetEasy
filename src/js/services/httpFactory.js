@@ -22,5 +22,5 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
                 return promise.promise;
             }
         }
-    }
+    };
 }]);

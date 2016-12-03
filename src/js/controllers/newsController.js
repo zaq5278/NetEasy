@@ -12,9 +12,12 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
         }
     });
 }]).controller('newsController',['$scope','HttpFactory',function ($scope,HttpFactory) {
+    $scope.news = {
+        newsArray:''
+    };
     var url = "http://c.3g.163.com/recommend/getSubDocPic?tid=T1348647909107&from=toutiao&offset=0&size=10";
-    HttpFactory.getData(url).then(function (reult) {
-        console.log(reult);
+    HttpFactory.getData(url).then(function (result) {
+        $scope.news.newsArray = result;
+        // console.log($scope.news.newsArray[0]);
     });
-    $scope.numArray = [1,2,3,4,5,6];
 }]);

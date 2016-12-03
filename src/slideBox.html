@@ -1,0 +1,11 @@
+<div class="topCarousel">
+    <ion-slide-box on-slide-changed="slideHasChanged($index)" auto-play="true" slide-interval="3000" show-pager="true" does-continue="true">
+
+        <ion-slide ng-repeat="ads in newArray track by $index">
+            <div style="height: 15rem;background: url('{{ads.imgsrc}}') no-repeat;background-size: 100%">
+            </div>
+        </ion-slide>
+
+    </ion-slide-box>
+    <div class="slideBottomDiv"></div>
+</div>
