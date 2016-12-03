@@ -1,26 +1,32 @@
 <!--首页-->
 <ion-view view-title="新闻">
-    <ion-content overflow-scroll="true">
-        <ion-scroll direction="x" scrollbar-x="false">
-            <div style="width: 1000px">
+    <ion-scroll class="topListScroll" has-bouncing="true" direction="x" scrollbar-x="false" style="margin-top: 4.4rem;z-index: 99999;background-color: white;">
+        <div style="width: 100rem">
+            <a ng-repeat="num in [1,2,3,4,5,6,7,8,9,0,1,1,2,3,1,1,1,1,1,1] track by $index" class="button button-clear button-small button-dark" style="white-space:nowrap">{{num}}</a>
+        </div>
+    </ion-scroll>
+    <ion-content style="margin-top: 2.9rem">
 
+        <ion-slide-box>
+            <ion-slide>
 
-            </div>
-
-            <ion-scroll class="topListScroll" has-bouncing="true" direction="x" scrollbar-x="false">
-                <div style="width: 1000px">
-                    <a ng-repeat="num in [1,2,3,4,5,6,7,8,9,0,1,1,2,3,1,1,1,1,1,1] track by $index" class="button button-clear button-small button-dark" style="white-space:nowrap">{{num}}</a>
-                </div>
-            </ion-scroll>
-            <ion-scroll direction="y" scrollbar-x="false">
                 <mg-slide-box source-array="{{news.newsArray[0]}}"></mg-slide-box>
 
                 <ion-item ng-repeat="num in [1,2,3,4,5,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1] track by $index">
+                {{num}}
+                </ion-item>
+            </ion-slide>
+            <ion-slide>
+                <ion-item ng-repeat="num in [1,2,3,4,5,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1] track by $index">
+                {{num}}
+                </ion-item>
+            </ion-slide>
+            <ion-slide>
+                <ion-item ng-repeat="num in [1,2,3,4,5,6,1,1,1,1,1,1,1,1,1,1,1,1,1,1] track by $index">
                     {{num}}
                 </ion-item>
-
-            </ion-scroll>
-        </ion-scroll>
+            </ion-slide>
+        </ion-slide-box>
 
     </ion-content>
 

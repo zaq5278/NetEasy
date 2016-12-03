@@ -6,7 +6,7 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
         getData:function (url,type) {
             if (url){
                 var promise = $q.defer();
-                url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
+                url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
                 type = type ? type:"GET";
                 $http({
                     url:url,
