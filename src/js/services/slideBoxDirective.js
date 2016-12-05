@@ -14,6 +14,7 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
         replace:true,
         link:function (scope,tElement,tAtts) {
             scope.newArray = [1,2,3,4,5];
+            // scope.newArray = [1,2];
             var lastSpan = tElement[0].lastChild;
             scope.$watch('sourceArray',function (newVal,oldVal) {
                 if (newVal){

@@ -33,8 +33,8 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
                     text: '<b>确定</b>',
                     type: 'button-clear button-assertive',
                     onTap: function(e) {
-                            e.preventDefault();
-                            console.log("取消!");
+                            // e.preventDefault();
+                            console.log("点击了确定!");
                     }
                 }
             ]

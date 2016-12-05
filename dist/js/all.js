@@ -67,8 +67,8 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
                     text: '<b>确定</b>',
                     type: 'button-clear button-assertive',
                     onTap: function(e) {
-                            e.preventDefault();
-                            console.log("取消!");
+                            // e.preventDefault();
+                            console.log("点击了确定!");
                     }
                 }
             ]
@@ -152,7 +152,8 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
         getData:function (url,type) {
             if (url){
                 var promise = $q.defer();
-                url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
+                // url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
+                url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
                 type = type ? type:"GET";
                 $http({
                     url:url,
@@ -186,6 +187,7 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
         replace:true,
         link:function (scope,tElement,tAtts) {
             scope.newArray = [1,2,3,4,5];
+            // scope.newArray = [1,2];
             var lastSpan = tElement[0].lastChild;
             scope.$watch('sourceArray',function (newVal,oldVal) {
                 if (newVal){
