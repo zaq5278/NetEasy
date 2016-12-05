@@ -45,7 +45,7 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
             }
         }
     });
-}]).controller('newsController',['$scope','HttpFactory',function ($scope,HttpFactory) {
+}]).controller('newsController',['$scope','$ionicPopup','HttpFactory',function ($scope,$ionicPopup,HttpFactory) {
     $scope.news = {
         newsArray:''
     };
@@ -54,6 +54,26 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
         $scope.news.newsArray = result;
         // console.log($scope.news.newsArray[0]);
     });
+    // 确认对话框
+    $scope.showConfirm = function() {
+        var myPopup = $ionicPopup.show({
+            template:'<p style="text-align: center;padding: 20px;color: #555555">确定要删除该商品吗?</p>',
+            scope: $scope,
+            buttons: [
+                { text: '取消',
+                    type: 'button-clear button-dark'
+                },
+                {
+                    text: '<b>确定</b>',
+                    type: 'button-clear button-assertive',
+                    onTap: function(e) {
+                            e.preventDefault();
+                            console.log("取消!");
+                    }
+                }
+            ]
+        });
+    };
 }]);
 /**
  * Created by qingyun on 16/11/30.
@@ -158,6 +178,11 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
         restrict:"E",
         scope:{sourceArray:'@'},
         templateUrl:'slideBox.html',
+        controller:['$scope','$state',function ($scope,$state) {
+            $scope.goToDetailView = function (index) {
+                console.log('进入详情页' + index);
+            };
+        }],
         replace:true,
         link:function (scope,tElement,tAtts) {
             scope.newArray = [1,2,3,4,5];
@@ -169,7 +194,6 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
                     lastSpan.innerText = scope.newArray[0].title;
                 }
             });
-
             scope.slideHasChanged = function (index) {
                 lastSpan.innerText = scope.newArray[index].title;
             }

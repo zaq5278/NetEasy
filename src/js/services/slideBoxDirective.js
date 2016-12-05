@@ -6,6 +6,11 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
         restrict:"E",
         scope:{sourceArray:'@'},
         templateUrl:'slideBox.html',
+        controller:['$scope','$state',function ($scope,$state) {
+            $scope.goToDetailView = function (index) {
+                console.log('进入详情页' + index);
+            };
+        }],
         replace:true,
         link:function (scope,tElement,tAtts) {
             scope.newArray = [1,2,3,4,5];
@@ -17,7 +22,6 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
                     lastSpan.innerText = scope.newArray[0].title;
                 }
             });
-
             scope.slideHasChanged = function (index) {
                 lastSpan.innerText = scope.newArray[index].title;
             }
