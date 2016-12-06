@@ -5,7 +5,7 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
     return{
         restrict:"E",
         scope:{sourceArray:'='},
-        template:'<div class="topCarousel"><ion-slide-box delegate-handle="topCarouselSlideBox" on-slide-changed="slideHasChanged($index)" auto-play="true" slide-interval="1000" show-pager="true" does-continue="true" ng-if="isShowSlideBox" ng-mouseenter="drag()" ng-mouseleave="leave()"> <ion-slide ng-repeat="ads in sourceArray track by $index" ng-click="goToDetailView($index)"><img ng-src="{{ads.imgsrc}}" class="topCarouselImg"></ion-slide> </ion-slide-box><div class="slideBottomDiv"></div></div>',
+        template:'<div class="topCarousel"><ion-slide-box delegate-handle="topCarouselSlideBox" on-slide-changed="slideHasChanged($index)" auto-play="true" slide-interval="1000" show-pager="true" does-continue="true" ng-if="isShowSlideBox" on-tap="drag($event)" on-drag="drag($event)" ng-mouseenter="drag($event)"> <ion-slide ng-repeat="ads in sourceArray track by $index" ng-click="goToDetailView($index)"><img ng-src="{{ads.imgsrc}}" class="topCarouselImg"></ion-slide> </ion-slide-box><div class="slideBottomDiv"></div></div>',
         controller:['$scope','$element','$ionicSlideBoxDelegate',function ($scope,$element,$ionicSlideBoxDelegate) {
             $scope.goToDetailView = function (index) {
                 console.log('进入详情页' + index);
@@ -23,12 +23,18 @@ angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
             $scope.slideHasChanged = function (index) {
                 // lastSpan.innerText = $scope.sourceArray[index].title;
             };
-            $scope.drag = function () {
+            $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
+
+            $scope.drag = function (event) {
+                console.log(1);
                 $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
+                event.stopPropagation();
             };
             $scope.leave = function () {
+                console.log(2);
                 $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(true);
             };
+
         }],
         replace:true,
         link:function (scope,tElement,tAtts) {

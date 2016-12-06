@@ -11,7 +11,7 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
             }
         }
     });
-}]).controller('newsController',['$scope','$ionicPopup','HttpFactory',function ($scope,$ionicPopup,HttpFactory) {
+}]).controller('newsController',['$scope','$ionicPopup','$ionicSlideBoxDelegate','HttpFactory',function ($scope,$ionicPopup,$ionicSlideBoxDelegate,HttpFactory) {
     $scope.news = {
         newsArray:'',
         adsArray:[]
@@ -41,4 +41,11 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
             ]
         });
     };
+    $scope.dragOpenSlide = function () {
+        $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(true);
+    };
+    $scope.slideChanged = function () {
+        $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
+
+    }
 }]);
