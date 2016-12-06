@@ -41,11 +41,15 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
             ]
         });
     };
+
     $scope.dragOpenSlide = function () {
+        //滑动content的时候能滑动页面
         $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(true);
     };
     $scope.slideChanged = function () {
+        //滑动页面完毕关闭底层slideBox的滑动
         $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
 
-    }
+    };
+
 }]);
