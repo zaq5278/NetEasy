@@ -13,12 +13,13 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
     });
 }]).controller('newsController',['$scope','$ionicPopup','HttpFactory',function ($scope,$ionicPopup,HttpFactory) {
     $scope.news = {
-        newsArray:''
+        newsArray:'',
+        adsArray:[]
     };
     var url = "http://c.3g.163.com/recommend/getSubDocPic?tid=T1348647909107&from=toutiao&offset=0&size=10";
     HttpFactory.getData(url).then(function (result) {
         $scope.news.newsArray = result;
-        // console.log($scope.news.newsArray[0]);
+        $scope.news.adsArray = result[0].ads;
     });
     // 确认对话框
     $scope.showConfirm = function() {

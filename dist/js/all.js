@@ -47,12 +47,13 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
     });
 }]).controller('newsController',['$scope','$ionicPopup','HttpFactory',function ($scope,$ionicPopup,HttpFactory) {
     $scope.news = {
-        newsArray:''
+        newsArray:'',
+        adsArray:[]
     };
     var url = "http://c.3g.163.com/recommend/getSubDocPic?tid=T1348647909107&from=toutiao&offset=0&size=10";
     HttpFactory.getData(url).then(function (result) {
         $scope.news.newsArray = result;
-        // console.log($scope.news.newsArray[0]);
+        $scope.news.adsArray = result[0].ads;
     });
     // 确认对话框
     $scope.showConfirm = function() {
@@ -153,7 +154,8 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
             if (url){
                 var promise = $q.defer();
                 // url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
-                url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
+                // url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
+                url = "http://192.168.0.204:3000/?myUrl=" + encodeURIComponent(url);
                 type = type ? type:"GET";
                 $http({
                     url:url,
@@ -177,28 +179,34 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
 angular.module('cftApp.slideBox',[]).directive('mgSlideBox',[function () {
     return{
         restrict:"E",
-        scope:{sourceArray:'@'},
-        templateUrl:'slideBox.html',
-        controller:['$scope','$state',function ($scope,$state) {
+        scope:{sourceArray:'='},
+        template:'<div class="topCarousel"><ion-slide-box delegate-handle="topCarouselSlideBox" on-slide-changed="slideHasChanged($index)" auto-play="true" slide-interval="1000" show-pager="true" does-continue="true" ng-if="isShowSlideBox" ng-mouseenter="drag()" ng-mouseleave="leave()"> <ion-slide ng-repeat="ads in sourceArray track by $index" ng-click="goToDetailView($index)"><img ng-src="{{ads.imgsrc}}" class="topCarouselImg"></ion-slide> </ion-slide-box><div class="slideBottomDiv"></div></div>',
+        controller:['$scope','$element','$ionicSlideBoxDelegate',function ($scope,$element,$ionicSlideBoxDelegate) {
             $scope.goToDetailView = function (index) {
                 console.log('进入详情页' + index);
+            };
+            var lastSpan = $element[0].lastElementChild;
+            // $scope.sourceArray = [1,2,3,4,5];
+            $scope.$watch('sourceArray',function (newVal,oldVal) {
+                if (newVal && newVal.length){
+                    $scope.isShowSlideBox = true;
+                    // $ionicSlideBoxDelegate.$getByHandle('topCarouselSlideBox').update();
+                    // $ionicSlideBoxDelegate.$getByHandle('topCarouselSlideBox').loop(true);
+                    lastSpan.innerText = $scope.sourceArray[0].title;
+                }
+            });
+            $scope.slideHasChanged = function (index) {
+                // lastSpan.innerText = $scope.sourceArray[index].title;
+            };
+            $scope.drag = function () {
+                $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
+            };
+            $scope.leave = function () {
+                $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(true);
             };
         }],
         replace:true,
         link:function (scope,tElement,tAtts) {
-            scope.newArray = [1,2,3,4,5];
-            // scope.newArray = [1,2];
-            var lastSpan = tElement[0].lastChild;
-            scope.$watch('sourceArray',function (newVal,oldVal) {
-                if (newVal){
-                    newVal = JSON.parse(newVal);
-                    scope.newArray = newVal.ads;
-                    lastSpan.innerText = scope.newArray[0].title;
-                }
-            });
-            scope.slideHasChanged = function (index) {
-                lastSpan.innerText = scope.newArray[index].title;
-            }
         }
     };
 }]);
