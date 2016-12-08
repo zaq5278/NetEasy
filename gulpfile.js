@@ -88,9 +88,9 @@ gulp.task('default',function () {
     // 监听html文件变化
     gulp.watch('src/*.html', ['html']);
     // 监听scss
-    // gulp.watch('src/scss/*.scss', function () {
-    //     gulp.run('scss');
-    // });
+    gulp.watch('src/scss/*.scss', function () {
+        gulp.run('scss');
+    });
     // 监听css
     gulp.watch('src/css/*.css', ['css']);
     //

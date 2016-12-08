@@ -8,11 +8,12 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
                 var promise = $q.defer();
                 // url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
                 // url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
-                url = "http://192.168.0.204:3000/?myUrl=" + encodeURIComponent(url);
+                url = "http://192.168.0.73:3000/?myUrl=" + encodeURIComponent(url);
                 type = type ? type:"GET";
                 $http({
                     url:url,
                     method:type,
+                    cache:true,
                     timeout:20000
                 }).then(function (reslut) {
                     reslut =reslut.data;
