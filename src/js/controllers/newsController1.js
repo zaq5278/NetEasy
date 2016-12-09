@@ -33,6 +33,7 @@ angular.module('cftApp.news1',[]).controller('newsController1',['$scope','$ionic
             $scope.news.index += 10;
         }
         HttpFactory.getData(url).then(function (result) {
+            result = result[Object.keys(result)[0]];
             if (!result){
                 alert("没有更多数据!");
                 return;

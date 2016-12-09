@@ -34,6 +34,7 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
     });
 
     $scope.loadMore = function (str) {
+        $scope.show();
         var url = '';
         if (str){
             url = str;
@@ -49,14 +50,29 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
         }
 
         HttpFactory.getData(url).then(function (result) {
+            result = result[Object.keys(result)[0]];
+            $scope.hide();
             if (!result){
                 alert("没有更多数据!");
                 return;
             }
+            //注意一定要用新的数组接收 不能直接使用$scope.news.adsArray数据 否则不停触发传播和脏值检查
+            var img_title_Array = [];
             if (!$scope.news.adsArray.length){
                 if(result[0].ads){
-                    //由于网易新闻有时候除了第一次之外没有头条用个数组存着
-                    $scope.news.adsArray = result[0].ads;
+                    // //由于网易新闻有时候除了第一次之外没有头条用个数组存着
+                    // $scope.news.adsArray = result[0].ads;
+                    if (result[0].ads.length){
+                        for (var k = 0;k < result[0].ads.length;k++){
+                            var obj = {
+                                title:result[0].ads[k].title,
+                                imgsrc:result[0].ads[k].imgsrc
+                            };
+                            img_title_Array.push(obj);
+
+                        }
+                        $scope.news.adsArray = img_title_Array;
+                    }
                 }
             }
             $scope.news.newsArray = $scope.news.newsArray.concat(result);
@@ -70,35 +86,12 @@ angular.module('cftApp.news',[]).config(['$stateProvider',function ($stateProvid
                 }
             }
 
+        },function () {
+            $scope.hide();
         });
     };
     $scope.doRefresh = function (str) {
-        console.log(11111);
-        var url = '';
-        if (str){
-            url = str;
-            url = url.replace('@',$scope.news.index);
 
-        }else {
-            url = "http://c.m.163.com/recommend/getSubDocPic?from=toutiao&prog=LMA1&open=&openpath=&fn=1&passport=&devId=%2BnrKMbpU9ZDPUOhb9gvookO3HKJkIOzrIg%2BI9FhrLRStCu%2B7ZneFbZ30i61TL9kY&offset=" + $scope.news.index +"&size=10&version=17.1&spever=false&net=wifi&lat=&lon=&ts=1480666192&sign=yseE2FNVWcJVjhvP48U1nPHyzZCKpBKh%2BaOhOE2d6GR48ErR02zJ6%2FKXOnxX046I&encryption=1&canal=appstore";
-        }
-        HttpFactory.getData(url).then(function (result) {
-            if (!result){
-                alert("没有更多数据!");
-                return;
-            }
-            if (!$scope.news.adsArray.length){
-                if(result[0].ads){
-                    //由于网易新闻有时候除了第一次之外没有头条用个数组存着
-                    $scope.news.adsArray = result[0].ads;
-                }
-            }
-            $scope.news.newsArray = result;
-            if ($scope.news.index === 0){
-                $scope.news.newsArray.splice(0,1);
-            }
-            $scope.$broadcast('scroll.refreshComplete');
 
-        });
     }
 }]);
