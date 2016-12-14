@@ -51,6 +51,5 @@ angular.module('cftApp.news1',[]).controller('newsController1',['$scope','$ionic
 
         });
     };
-
-
+    
 }]);

@@ -201,8 +201,7 @@ angular.module('cftApp.news1',[]).controller('newsController1',['$scope','$ionic
 
         });
     };
-
-
+    
 }]);
 /**
  * Created by qingyun on 16/12/7.
