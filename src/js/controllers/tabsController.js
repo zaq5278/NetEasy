@@ -1,7 +1,7 @@
 /**
  * Created by qingyun on 16/11/30.
  */
-angular.module('cftApp.tabs',[]).controller('tabsController',['$scope','$ionicPopup','$ionicSlideBoxDelegate','$timeout',function ($scope,$ionicPopup,$ionicSlideBoxDelegate,$timeout) {
+angular.module('cftApp.tabs',[]).controller('tabsController',['$scope','$ionicPopup','$ionicSlideBoxDelegate','$timeout','$ionicLoading',function ($scope,$ionicPopup,$ionicSlideBoxDelegate,$timeout,$ionicLoading) {
     $scope.$on('$stateChangeSuccess',function (evt,current,previous) {
         var update_wx_title = function(title) {
             var body = document.getElementsByTagName('body')[0];
@@ -32,6 +32,21 @@ angular.module('cftApp.tabs',[]).controller('tabsController',['$scope','$ionicPo
 
         }
     });
+    $scope.show = function() {
+        // $ionicBackdrop.retain();
+        $ionicLoading.show({
+            template: '<ion-spinner icon="ios"></ion-spinner>',
+            // noBackdrop:true
+        });
+        // $timeout(function () {
+        //     // $ionicLoading.hide();
+        //     $ionicBackdrop.release();
+        //     $ionicBackdrop.release();
+        // },3000);
+    };
+    $scope.hide = function(){
+        $ionicLoading.hide();
+    };
     // 确认对话框
     $scope.showConfirm = function() {
         var myPopup = $ionicPopup.show({
@@ -77,7 +92,7 @@ angular.module('cftApp.tabs',[]).controller('tabsController',['$scope','$ionicPo
         }else {
             changedNum -= 1;
         }
-        if (changedNum <= 1){
+        if (changedNum <= 1 || changedNum >= 15){
             console.log("关闭循环轮播");
             $scope.isDoesContinue = false;
             $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').loop(false);
@@ -86,8 +101,8 @@ angular.module('cftApp.tabs',[]).controller('tabsController',['$scope','$ionicPo
             $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').loop(true);
         }
         $scope.$broadcast('updateNews' + index,changedNum);
-        $scope.$broadcast('updateNews' + (index - 1),'清理');
-        $scope.$broadcast('updateNews' + (index + 1),'清理');
+        // $scope.$broadcast('updateNews' + (index - 1),'清理');
+        // $scope.$broadcast('updateNews' + (index + 1),'清理');
         //滑动页面完毕关闭底层slideBox的滑动
         $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').enableSlide(false);
         $ionicSlideBoxDelegate.$getByHandle('mainSlideBox').update();
