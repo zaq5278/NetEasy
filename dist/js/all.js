@@ -423,8 +423,8 @@ angular.module('cftApp.httpFactory',[]).factory('HttpFactory',['$http','$q',func
             if (url){
                 var promise = $q.defer();
                 // url = "http://192.168.0.100:3000/?myUrl=" + encodeURIComponent(url);
-                url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
-                // url = "http://192.168.0.73:3000/?myUrl=" + encodeURIComponent(url);
+                // url = "http://localhost:3000/?myUrl=" + encodeURIComponent(url);
+                url = "http://59.110.139.104:3000/wy?myUrl=" + encodeURIComponent(url);
                 type = type ? type:"GET";
                 $http({
                     url:url,

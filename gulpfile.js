@@ -14,7 +14,9 @@ var htmlmin = require('gulp-htmlmin'), //html压缩
     uglify = require('gulp-uglify'),//js压缩
     concat = require('gulp-concat'),//文件合并
     rename = require('gulp-rename'),//文件更名
-    notify = require('gulp-notify');//提示信息
+    spritesmith = require('gulp.spritesmith'),//雪碧图
+    notify = require('gulp-notify'),//提示信息
+    browserSync = require('browser-sync').create(),//浏览器刷新
     livereload = require('gulp-livereload');//自动刷新页面
 // 检查js
 gulp.task('lint', function() {
@@ -70,6 +72,14 @@ gulp.task('img', function() {
         .pipe(gulp.dest('./dist/images/'))
         // .pipe(notify({ message: 'img task ok' }));
 });
+//雪碧图
+gulp.task('sprite', function () {
+    var spriteData = gulp.src('src/images/*.png').pipe(spritesmith({
+        imgName: 'sprite.png',
+        cssName: 'sprite.css'
+    }));
+    return spriteData.pipe(gulp.dest('dist/images'));
+});
 // 压缩html
 gulp.task('html', function() {
     return gulp.src('src/*.html')
@@ -78,13 +88,23 @@ gulp.task('html', function() {
         // .pipe(notify({ message: 'html task ok' }));
 
 });
+// 静态服务器
+gulp.task('browserSync', function() {
+    browserSync.init({
+        server: {
+            baseDir: "dist",
+            index: "index.html"
+            // proxy: "域名或者ip"
+        }
+    });
+});
 //清除文件
 gulp.task('clean', function(cb) {
     return gulp.src('dist',{read: false})
         .pipe(clean({force: true}))
 });
 gulp.task('default',function () {
-    gulp.start('js','css','img','html','lib');
+    gulp.start('js','css','sprite','html','lib','browserSync');
     // 监听html文件变化
     gulp.watch('src/*.html', ['html']);
     // 监听scss
@@ -99,7 +119,8 @@ gulp.task('default',function () {
     //
     // // 监听 image 文件
     // gulp.watch('imges/*', ['img']);
-    livereload.listen();
-    // Watch any files in dest/, reload on change
-    gulp.watch(['dist/**']).on('change', livereload.changed);
+    // livereload.listen();
+    // // Watch any files in dest/, reload on change
+    // gulp.watch(['dist/**']).on('change', livereload.changed);
+    gulp.watch(['src/**']).on('change', browserSync.reload);
 });
